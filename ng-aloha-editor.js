@@ -1,10 +1,11 @@
 'use strict';
 
-angular.module('authoringEnvironmentApp')
+var app = angular.module('ngAlohaEditor', []);
 /*
 Thanks goes out to https://groups.google.com/d/msg/angular/g3eNa360oMo/0-plw8zm-okJ
+Also props to https://github.com/esvit/ng-ckeditor for a nice example to implement an editor
 */
-  .directive('aloha', ['$location', 'AlohaFormattingFactory', function ($location, AlohaFormattingFactory) {
+app.directive('aloha', ['$location', '$rootScope', function ($location, $rootScope) {
     var count = 0;
 
     // Because angularjs would route clicks on any links, but we
@@ -78,26 +79,22 @@ Thanks goes out to https://groups.google.com/d/msg/angular/g3eNa360oMo/0-plw8zm-
             alohaContent: '@alohaContent'
         },
         link: function (scope, elem, attrs) {
-            console.log(scope.alohaContent);
             var elementId = "" + count++;
             var uniqeClass = "angular-aloha-element" + elementId;
             elem[0].classList.add(uniqeClass);
             elem.data("ng-aloha-element-id", elementId);
             Aloha.ready(function () {
+                $rootScope.$broadcast('texteditor-js-ready');
                 alohaElement(elem);
+                $rootScope.$broadcast('texteditor-ready', elem);
                 Aloha.getEditableById(elem.attr('id')).setContents(scope.alohaContent);
-                // $(elem).aloha();
-                // this could go in the directive that it checks itself, we might have to benchmark this
-                Aloha.bind('aloha-selection-changed', function () {
-                    angular.forEach(AlohaFormattingFactory.get(), function(value, key) {
-                        var selected = Aloha.queryCommandState(value);
-                        jQuery('.editoricon-'+value.toLowerCase()).parent().toggleClass('active', selected);
-                    });
+
+                Aloha.bind('aloha-selection-changed', function (aEvent, aEditable) {
+                    $rootScope.$broadcast('texteditor-selection-changed', aEvent, aEditable);
                 });
-                // scope.$on('$destroy', function () {
-                //     $(elem).mahalo();
-                // });
+
                 Aloha.bind('aloha-smart-content-changed', function(jEvent, jData) {
+                    $rootScope.$broadcast('texteditor-content-changed', aEvent, aEditable);
                     // if (jData.editable.obj.data("ng-aloha-element-id") === elementId) {
                         console.log(scope);
                         scope.alohaContent = jData.editable.getContents();
