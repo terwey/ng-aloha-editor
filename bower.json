@@ -1,11 +1,5 @@
 {
-    "name": "ng-aloha-editor",
-    "version": "0.0.1",
-    "main": "ng-aloha-editor.js",
-    "dependencies": {
-        "angular": "1.2.4"
-    },
-    "devDependencies": {
-        "jquery": "1.10.2"
-    }
+  "name": "ng-aloha-editor",
+  "version": "0.0.1",
+  "main": "ng-aloha-editor.js"
 }
