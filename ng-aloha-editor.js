@@ -1,11 +1,31 @@
 'use strict';
 
-var app = angular.module('ngAlohaEditor', []);
-/*
-Thanks goes out to https://groups.google.com/d/msg/angular/g3eNa360oMo/0-plw8zm-okJ
-Also props to https://github.com/esvit/ng-ckeditor for a nice example to implement an editor
+/**
+* This AngularJS Directive is to allow easy usage of the Aloha Editor inside an AngularJS project.
+*
+* @class ngAlohaEditor
 */
-console.log(ngAlohaEditorConfig);
+
+/*
+Props to https://github.com/esvit/ng-ckeditor for a nice example to implement an editor
+*/
+
+var app = angular.module('ngAlohaEditor', []);
+
+
+if (typeof ngAlohaEditorConfig === 'undefined') {
+    var ngAlohaEditorConfig = { baseUrl: '' };
+}
+
+/**
+* Defines the configuration for the Directive
+*
+* @example
+* var ngAlohaEditorConfig = { baseUrl: 'bower_components/ng-aloha-editor/' };
+*
+* @property ngAlohaEditorConfig 
+* @type Array
+**/
 
 require.config({
     paths: {
@@ -13,7 +33,7 @@ require.config({
     }
 });
 
-require(['aloha']);
+require(['aloha'], function(Aloha) {
 
 var Aloha = window.Aloha || {};
 
@@ -24,18 +44,31 @@ Aloha.settings = {
     errorhandling : true
 };
 
+window.Aloha = Aloha;
+
 app.directive('aloha', ['$location', '$rootScope', function ($location, $rootScope) {
     var count = 0;
 
-    // Because angularjs would route clicks on any links, but we
-    // want the user to be able to click on links so he can edit
-    // them.
+    /**
+    * Because AngularJS would route clicks on any links, but we
+    * want the user to be able to click on links so he can edit them.
+    *
+    * Comment and method taken from: https://groups.google.com/d/msg/angular/g3eNa360oMo/0-plw8zm-okJ
+    *
+    * @method preventAngularRouting
+    * @param {Object} elem DOM Element with Aloha bound to it
+    * @return {boolean} false
+    **/
     function preventAngularRouting(elem) {
         elem.click(function (e) {
             return false;
         });
     }
 
+    /**
+    * @method replaceAngularLinkClickHandler
+    * @param {Object} elem DOM Element with Aloha bound to it
+    **/
     function replaceAngularLinkClickHandler(elem) {
         preventAngularRouting(elem);
         $(elem).on('click', 'a', function (e) {
@@ -54,9 +87,14 @@ app.directive('aloha', ['$location', '$rootScope', function ($location, $rootSco
         });
     }
 
-    // Also, we don't want the default ctrl+click behaviour of aloha,
-    // which is to do window.location.href = href because that would
-    // reload the page.
+    /**
+    * Also, we don't want the default ctrl+click behaviour of aloha, which 
+    * is to do window.location.href = href because that would reload the page.
+    *
+    * Comment and method taken from: https://groups.google.com/d/msg/angular/g3eNa360oMo/0-plw8zm-okJ
+    *
+    * @method disableAlohaCtrlClickHandler
+    **/
     function disableAlohaCtrlClickHandler() {
         Aloha.ready(function () {
             Aloha.bind('aloha-editable-activated', function (event, msg) {
@@ -103,16 +141,40 @@ app.directive('aloha', ['$location', '$rootScope', function ($location, $rootSco
             elem[0].classList.add(uniqeClass);
             elem.data("ng-aloha-element-id", elementId);
             Aloha.ready(function () {
+
+                /**
+                * The Text Editor Javascript is Loaded and Ready
+                * @event texteditor-js-ready
+                **/
                 $rootScope.$broadcast('texteditor-js-ready');
+
                 alohaElement(elem);
+
+                /**
+                * The Text Editor has been bound to the object
+                * @event texteditor-ready
+                * @param {Object} Element DOM Element that Aloha has bound to
+                **/
                 $rootScope.$broadcast('texteditor-ready', elem);
                 Aloha.getEditableById(elem.attr('id')).setContents(scope.alohaContent);
 
                 Aloha.bind('aloha-selection-changed', function (jqueryEvent, alohaEditable) {
+                    /**
+                    * The Text Editor has detected a change in it's selection
+                    * @event texteditor-selection-changed
+                    * @param {Object} jQueryEvent jQuery Event
+                    * @param {Object} alohaEditable DOM Element that Aloha has bound to
+                    **/
                     $rootScope.$broadcast('texteditor-selection-changed', jqueryEvent, alohaEditable);
                 });
 
                 Aloha.bind('aloha-smart-content-changed', function(jqueryEvent, alohaEditable) {
+                    /**
+                    * The Text Editor has detected a change in it's content
+                    * @event texteditor-content-changed
+                    * @param {Object} jQueryEvent jQuery Event
+                    * @param {Object} alohaEditable DOM Element that Aloha has bound to
+                    **/
                     $rootScope.$broadcast('texteditor-content-changed', jqueryEvent, alohaEditable);
                     // if (jData.editable.obj.data("ng-aloha-element-id") === elementId) {
                         console.log(scope);
@@ -127,3 +189,4 @@ app.directive('aloha', ['$location', '$rootScope', function ($location, $rootSco
         }
     };
 }]);
+});
