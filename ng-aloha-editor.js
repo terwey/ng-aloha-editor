@@ -33,8 +33,6 @@ require.config({
     }
 });
 
-require(['aloha'], function(Aloha) {
-
 var Aloha = window.Aloha || {};
 
 Aloha.settings = {
@@ -60,7 +58,7 @@ app.directive('aloha', ['$location', '$rootScope', function ($location, $rootSco
     * @return {boolean} false
     **/
     function preventAngularRouting(elem) {
-        elem.click(function (e) {
+        $(elem).click(function (e) {
             return false;
         });
     }
@@ -189,4 +187,3 @@ app.directive('aloha', ['$location', '$rootScope', function ($location, $rootSco
         }
     };
 }]);
-});
