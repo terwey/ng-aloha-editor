@@ -36,3 +36,15 @@ This can be placed inside your ```build:js``` or equivalent section. Just make s
 ```html
 <script src="PATH_TO_BOWER/ng-aloha-editor/ng-aloha-editor.js"></script>
 ```
+
+## Test
+
+You can install the dependencies and test the directive running the
+following commands from the repo directory:
+
+    $ npm install
+    $ bower install
+    $ npm test
+
+As an alternative to `npm test`, you can use `karma start` to keep the
+tests going in the background.

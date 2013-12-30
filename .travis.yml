@@ -1,0 +1,6 @@
+before_script:
+  - npm install
+  - bower install
+  
+script:
+  - npm test
