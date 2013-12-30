@@ -1,0 +1,3 @@
+var ngAlohaEditorConfig = {
+    baseUrl: 'base/'
+}
