@@ -32,9 +32,6 @@ Aloha.settings = Aloha.settings || {};
 
 var DirectiveSettings = {
     baseUrl: ngAlohaEditorConfig.baseUrl + 'libs/alohaeditor-0.23.26/aloha/lib',
-    plugins: {
-        load: "common/ui, common/format, common/paste, common/block, common/list, common/table, extra/draganddropfiles, common/image"
-    },
     logLevels: {'error': true, 'warn': true, 'info': false, 'debug': false},
     errorhandling : false
 };

@@ -15,6 +15,15 @@ Please add this in the ```<head>``` of your ```index.html``` (or equivalent) to 
 ```html
 <script src="PATH_TO_BOWER/ng-aloha-editor/libs/alohaeditor-0.23.26/aloha/lib/require.js"></script>
 <script src="PATH_TO_BOWER/ng-aloha-editor/libs/alohaeditor-0.23.26/aloha/lib/vendor/jquery-1.7.2.js"></script>
+<script type="text/javascript">
+    var Aloha = window.Aloha || ( window.Aloha = {} );
+	// Load your Plugins here, can't be done after Aloha has loaded
+    Aloha.settings = {
+        plugins: {
+            load: "common/ui, common/format, common/paste, common/block, common/list, common/table, extra/draganddropfiles, common/image"
+        }
+    }
+</script>
 <script src="PATH_TO_BOWER/ng-aloha-editor/libs/alohaeditor-0.23.26/aloha/lib/aloha.js"></script>
 <script>
 var ngAlohaEditorConfig = { baseUrl: 'PATH_TO_BOWER/ng-aloha-editor/' };
