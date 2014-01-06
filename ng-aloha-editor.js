@@ -138,7 +138,7 @@ module.directive('aloha', ['$location', '$rootScope', function ($location, $root
                 * The Text Editor Javascript is Loaded and Ready
                 * @event texteditor-js-ready
                 **/
-                $scope.$emit('texteditor-js-ready');
+                scope.$emit('texteditor-js-ready');
 
                 alohaElement(elem);
 
@@ -147,7 +147,7 @@ module.directive('aloha', ['$location', '$rootScope', function ($location, $root
                 * @event texteditor-ready
                 * @param {Object} Element DOM Element that Aloha has bound to
                 **/
-                $scope.$emit('texteditor-ready', elem);
+                scope.$emit('texteditor-ready', elem);
                 Aloha.getEditableById(elem.attr('id')).setContents(scope.alohaContent);
 
                 Aloha.bind('aloha-selection-changed', function (jqueryEvent, alohaEditable) {
@@ -157,7 +157,7 @@ module.directive('aloha', ['$location', '$rootScope', function ($location, $root
                     * @param {Object} jQueryEvent jQuery Event
                     * @param {Object} alohaEditable DOM Element that Aloha has bound to
                     **/
-                    $scope.$emit('texteditor-selection-changed', jqueryEvent, alohaEditable);
+                    scope.$emit('texteditor-selection-changed', jqueryEvent, alohaEditable);
                 });
 
                 Aloha.bind('aloha-smart-content-changed', function(jqueryEvent, alohaEditable) {
@@ -167,7 +167,7 @@ module.directive('aloha', ['$location', '$rootScope', function ($location, $root
                     * @param {Object} jQueryEvent jQuery Event
                     * @param {Object} alohaEditable DOM Element that Aloha has bound to
                     **/
-                    $scope.$emit('texteditor-content-changed', jqueryEvent, alohaEditable);
+                    scope.$emit('texteditor-content-changed', jqueryEvent, alohaEditable);
                     if (typeof(alohaEditable) != "undefined") {
                         scope.alohaContent = alohaEditable.editable.getContents();
                         scope.$apply();
