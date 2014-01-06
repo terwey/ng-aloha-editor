@@ -13,7 +13,9 @@ Please add this in the ```<head>``` of your ```index.html``` (or equivalent) to 
 
 
 ```html
-<script src="PATH_TO_BOWER/requirejs/require.js"></script>
+<script src="PATH_TO_BOWER/ng-aloha-editor/libs/alohaeditor-0.23.26/aloha/lib/require.js"></script>
+<script src="PATH_TO_BOWER/ng-aloha-editor/libs/alohaeditor-0.23.26/aloha/lib/vendor/jquery-1.7.2.js"></script>
+<script src="PATH_TO_BOWER/ng-aloha-editor/libs/alohaeditor-0.23.26/aloha/lib/aloha.js"></script>
 <script>
 var ngAlohaEditorConfig = { baseUrl: 'PATH_TO_BOWER/ng-aloha-editor/' };
 </script>
