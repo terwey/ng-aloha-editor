@@ -1,0 +1,4 @@
+[submodule "_site"]
+	path = _site
+	url = https://github.com/terwey/ng-aloha-editor.git
+	branch = gh-pages
