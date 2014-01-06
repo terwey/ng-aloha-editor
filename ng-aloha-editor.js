@@ -10,7 +10,7 @@
 Props to https://github.com/esvit/ng-ckeditor for a nice example to implement an editor
 */
 
-var app = angular.module('ngAlohaEditor', []);
+var module = angular.module('ngAlohaEditor', []);
 
 
 if (typeof ngAlohaEditorConfig === 'undefined') {
@@ -27,26 +27,19 @@ if (typeof ngAlohaEditorConfig === 'undefined') {
 * @type Array
 **/
 
-require.config({
-    paths: {
-        aloha: ngAlohaEditorConfig.baseUrl + 'libs/alohaeditor-0.23.26/aloha/lib/aloha'
-    }
-});
+Aloha = window.Aloha || {};
+Aloha.settings = Aloha.settings || {};
 
-require(['aloha'], function(Aloha) {
-
-var Aloha = window.Aloha || {};
-
-Aloha.settings = {
+var DirectiveSettings = {
     baseUrl: ngAlohaEditorConfig.baseUrl + 'libs/alohaeditor-0.23.26/aloha/lib',
     load: "common/ui, common/format, common/paste, common/block, common/list, common/table, extra/draganddropfiles, common/image",
     logLevels: {'error': true, 'warn': true, 'info': false, 'debug': false},
-    errorhandling : true
+    errorhandling : false
 };
 
-window.Aloha = Aloha;
+jQuery.extend(Aloha.settings, DirectiveSettings)
 
-app.directive('aloha', ['$location', '$rootScope', function ($location, $rootScope) {
+module.directive('aloha', ['$location', '$rootScope', function ($location, $rootScope) {
     var count = 0;
 
     /**
@@ -60,7 +53,7 @@ app.directive('aloha', ['$location', '$rootScope', function ($location, $rootSco
     * @return {boolean} false
     **/
     function preventAngularRouting(elem) {
-        elem.click(function (e) {
+        Aloha.jQuery(elem).click(function (e) {
             return false;
         });
     }
@@ -71,7 +64,7 @@ app.directive('aloha', ['$location', '$rootScope', function ($location, $rootSco
     **/
     function replaceAngularLinkClickHandler(elem) {
         preventAngularRouting(elem);
-        $(elem).on('click', 'a', function (e) {
+        Aloha.jQuery(elem).on('click', 'a', function (e) {
             var href = $(this).attr('href');
             // Use metaKey for OSX and ctrlKey for PC.
             if (e.metaKey || e.ctrlKey) {
@@ -176,12 +169,13 @@ app.directive('aloha', ['$location', '$rootScope', function ($location, $rootSco
                     * @param {Object} alohaEditable DOM Element that Aloha has bound to
                     **/
                     $rootScope.$broadcast('texteditor-content-changed', jqueryEvent, alohaEditable);
+                    if (typeof(alohaEditable) != "undefined") {
                     // if (jData.editable.obj.data("ng-aloha-element-id") === elementId) {
                         console.log(scope);
                         scope.alohaContent = alohaEditable.editable.getContents();
                         console.log(scope);
                         scope.$apply();
-                    // }
+                    }
                 });
             });
 
@@ -189,4 +183,3 @@ app.directive('aloha', ['$location', '$rootScope', function ($location, $rootSco
         }
     };
 }]);
-});
