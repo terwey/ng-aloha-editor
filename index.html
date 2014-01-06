@@ -1,0 +1,26 @@
+<html>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.js"></script>
+
+    <script src="libs/alohaeditor-0.23.26/aloha/lib/require.js"></script>
+    <script src="libs/alohaeditor-0.23.26/aloha/lib/vendor/jquery-1.7.2.js"></script>
+    <script src="libs/alohaeditor-0.23.26/aloha/lib/aloha.js"></script>
+    <script src="ng-aloha-editor.js"></script>
+    <script>
+    angular.module('ExamplePage', ['ngAlohaEditor']);
+    </script>
+    <script>
+    var ngAlohaEditorConfig = { baseUrl: '' };
+    </script>
+  </head>
+  <body ng-app="ExamplePage">
+    <div ng-init="examples=[{ name: 'one', content:'Foo bar baz' }, { name: 'two', content:'herp derp'}]">
+      <div
+        ng-repeat="ex in examples"
+        ng-class="example-{{ex.name}}"
+        data-aloha-content='{{ex.content}}'
+        aloha>
+      </div>
+    </div>
+  </body>
+</html>
