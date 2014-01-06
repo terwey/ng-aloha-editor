@@ -5,6 +5,15 @@
 
     <script src="libs/alohaeditor-0.23.26/aloha/lib/require.js"></script>
     <script src="libs/alohaeditor-0.23.26/aloha/lib/vendor/jquery-1.7.2.js"></script>
+    <script type="text/javascript">
+        var Aloha = window.Aloha || ( window.Aloha = {} );
+
+        Aloha.settings = {
+            plugins: {
+                load: "common/ui, common/format, common/paste, common/block, common/list, common/table, extra/draganddropfiles, common/image"
+            }
+        }
+    </script>
     <script src="libs/alohaeditor-0.23.26/aloha/lib/aloha.js"></script>
     <script src="ng-aloha-editor.js"></script>
     <script>
@@ -13,7 +22,7 @@
     <script>
     var ngAlohaEditorConfig = { baseUrl: '' };
     </script>
-    <link href="http://cdn.aloha-editor.org/latest/css/aloha.css" rel="stylesheet" type="text/css" />
+    <link href="libs/alohaeditor-0.23.26/aloha/css/aloha.css" rel="stylesheet" type="text/css" />
   </head>
   <body ng-app="ExamplePage">
     <div ng-init="examples=[{ name: 'one', content:'Foo bar baz' }, { name: 'two', content:'herp derp'}]">
