@@ -1,0 +1,107 @@
+<html>
+  <head>
+    <base href="https://rawgithub.com/terwey/ng-aloha-editor/master/">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.js"></script>
+
+    <script src="libs/alohaeditor-0.23.26/aloha/lib/require.js"></script>
+    <script src="libs/alohaeditor-0.23.26/aloha/lib/vendor/jquery-1.7.2.js"></script>
+    <script type="text/javascript">
+        var Aloha = window.Aloha || ( window.Aloha = {} );
+
+        Aloha.settings = {
+            plugins: {
+                load: "common/ui, common/format, common/paste, common/block, common/list, common/table, extra/draganddropfiles, common/image"
+            }
+        }
+    </script>
+    <style type="text/css">
+    .dropZone {
+        margin: 1em;
+        border: 3px dashed lightgray;
+        height: 1.5em;
+        width: 100%;
+    }
+
+    .imageBlock {
+        margin: 1em;
+        padding: 1em;
+        border: 1px solid gray;
+        background-color: lightgray;
+    }
+    </style>
+    <script type="text/javascript">
+    /* 
+    make all the make draggable
+    */
+
+    jQuery.fn.makeDraggable = function() {
+        console.log('sup', $(this));
+        $(this).bind('dragstart', function(e) {
+            console.log('dragstart', e.srcElement);
+            var data = JSON.stringify(jQuery(e.srcElement).data());
+            console.log(data);
+            e.originalEvent.dataTransfer.setData('Text', data);
+            console.log('getData', e.originalEvent.dataTransfer.getData('Text'));
+        });
+    }
+
+    $( document ).ready(function() {
+        jQuery("[draggable='true']").makeDraggable();
+
+        /*
+        First bind the Events
+        */
+        Aloha.ready(function () {
+            jQuery('.aloha-editable').on("dragover", 'p', function(jQueryEvent) {
+                var e = jQueryEvent.originalEvent;
+
+                var dropZone = jQuery('<div class="dropZone"></div>');
+                if (!$(e.target).next().hasClass('dropZone')) {
+                    $(e.target).after(dropZone);
+                }
+            });
+
+            jQuery('.aloha-editable').on("dragleave", 'p', function(jQueryEvent) {
+                var e = jQueryEvent.originalEvent;
+                if (jQuery(e.target).next().hasClass('dropZone')) {
+                    jQuery('.dropZone').remove();
+                }
+            });
+
+            jQuery('.aloha-editable').on("drop", 'p', function(jQueryEvent) {
+                var e = jQueryEvent.originalEvent;
+                if (jQuery(e.target).next().hasClass('dropZone')) {
+                    jQuery('.dropZone').remove();
+                }
+                jQuery(e.target).css('border', 'none');
+                
+                var block = jQuery('<div class="imageBlock">'+e.dataTransfer.getData('Text')+'</div>');
+                Aloha.jQuery(block).alohaBlock();
+                jQuery(jQueryEvent.target).after(block);
+            });
+        });
+    });
+    </script>
+    <script src="libs/alohaeditor-0.23.26/aloha/lib/aloha.js"></script>
+    <script src="ng-aloha-editor.js"></script>
+    <script>
+    angular.module('ExamplePage', ['ngAlohaEditor']);
+    </script>
+    <script>
+    var ngAlohaEditorConfig = { baseUrl: '' };
+    </script>
+    <link href="libs/alohaeditor-0.23.26/aloha/css/aloha.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body ng-app="ExamplePage">
+    <div draggable="true" style="border:1px dotted black; display:inline-block" data-alohaBlock="image" data-imageId="12">DRAG ME! Image 12</div>
+    <hr />
+    <div ng-init="examples=[{ name: 'one', content:'<p>Foo bar baz 1</p><p>Foo bar baz 2</p><p>Foo bar baz 3</p><p>Foo bar baz 4</p>' }, { name: 'two', content:'<p>herp derp</p>'}]">
+      <div style="min-height: 100px; border: 1px inset; margin: 1em;"
+        ng-repeat="ex in examples"
+        ng-class="example-{{ex.name}}"
+        data-aloha-content='{{ex.content}}'
+        aloha>
+      </div>
+    </div>
+  </body>
+</html>
