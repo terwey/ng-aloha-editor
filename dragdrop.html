@@ -49,8 +49,8 @@
     jQuery.fn.makeDraggable = function() {
         console.log('sup', $(this));
         $(this).bind('dragstart', function(e) {
-            console.log('dragstart', e.srcElement);
-            var data = JSON.stringify(jQuery(e.srcElement).data());
+            var target = e.target || e.srcElement;
+            var data = JSON.stringify(jQuery(target).data());
             console.log(data);
             e.originalEvent.dataTransfer.setData('Text', data);
             console.log('getData', e.originalEvent.dataTransfer.getData('Text'));
