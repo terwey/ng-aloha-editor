@@ -47,13 +47,10 @@
     */
 
     jQuery.fn.makeDraggable = function() {
-        console.log('sup', $(this));
         $(this).bind('dragstart', function(e) {
             var target = e.target || e.srcElement;
             var data = JSON.stringify(jQuery(target).data());
-            console.log(data);
             e.originalEvent.dataTransfer.setData('Text', data);
-            console.log('getData', e.originalEvent.dataTransfer.getData('Text'));
         });
     }
 
@@ -66,26 +63,30 @@
         Aloha.ready(function () {
             jQuery('.aloha-editable').on("dragover", 'p', function(jQueryEvent) {
                 var e = jQueryEvent.originalEvent;
+                var target = e.target || e.srcElement;
 
                 var dropZone = jQuery('<div class="dropZone"></div>');
-                if (!$(e.target).next().hasClass('dropZone')) {
-                    $(e.target).after(dropZone);
+                if (!$(target).next().hasClass('dropZone')) {
+                    $(target).after(dropZone);
                 }
             });
 
             jQuery('.aloha-editable').on("dragleave", 'p', function(jQueryEvent) {
                 var e = jQueryEvent.originalEvent;
-                if (jQuery(e.target).next().hasClass('dropZone')) {
+                var target = e.target || e.srcElement;
+                if (jQuery(target).next().hasClass('dropZone')) {
                     jQuery('.dropZone').remove();
                 }
             });
 
             jQuery('.aloha-editable').on("drop", 'p', function(jQueryEvent) {
                 var e = jQueryEvent.originalEvent;
-                if (jQuery(e.target).next().hasClass('dropZone')) {
+                e.preventDefault();
+                var target = e.target || e.srcElement;
+                if (jQuery(target).next().hasClass('dropZone')) {
                     jQuery('.dropZone').remove();
                 }
-                jQuery(e.target).css('border', 'none');
+                jQuery(target).css('border', 'none');
                 var json = jQuery.parseJSON(e.dataTransfer.getData('Text'));
                 var block = jQuery('<div class="imageBlock">Type: <strong>'+json.alohablock+'</strong><br />ID: <strong>'+json.imageid+'</strong></div>');
                 Aloha.jQuery(block).alohaBlock();
