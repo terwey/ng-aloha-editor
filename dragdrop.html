@@ -28,6 +28,18 @@
         border: 1px solid gray;
         background-color: lightgray;
     }
+
+    .draggy {
+        border:1px dotted black;
+        display: inline-block;
+        padding: 1em;
+        margin: 0.5em;
+        float: left;
+    }
+
+    .clear {
+        clear: both;
+    }
     </style>
     <script type="text/javascript">
     /* 
@@ -74,8 +86,8 @@
                     jQuery('.dropZone').remove();
                 }
                 jQuery(e.target).css('border', 'none');
-                
-                var block = jQuery('<div class="imageBlock">'+e.dataTransfer.getData('Text')+'</div>');
+                var json = jQuery.parseJSON(e.dataTransfer.getData('Text'));
+                var block = jQuery('<div class="imageBlock">Type: <strong>'+json.alohablock+'</strong><br />ID: <strong>'+json.imageid+'</strong></div>');
                 Aloha.jQuery(block).alohaBlock();
                 jQuery(jQueryEvent.target).after(block);
             });
@@ -93,9 +105,12 @@
     <link href="libs/alohaeditor-0.23.26/aloha/css/aloha.css" rel="stylesheet" type="text/css" />
   </head>
   <body ng-app="ExamplePage">
-    <div draggable="true" style="border:1px dotted black; display:inline-block" data-alohaBlock="image" data-imageId="12">DRAG ME! Image 12</div>
+    <div id="dragholder">
+        <div data-ng-repeat="i in [1,2,3,4,5,6,7,8,9,10]" draggable="true" class="draggy" data-alohaBlock="image" data-imageId="{{$index}}">DRAG ME! Image {{$index}}</div>
+    </div>
+    
     <hr />
-    <div ng-init="examples=[{ name: 'one', content:'<p>Foo bar baz 1</p><p>Foo bar baz 2</p><p>Foo bar baz 3</p><p>Foo bar baz 4</p>' }, { name: 'two', content:'<p>herp derp</p>'}]">
+    <div class="clear" ng-init="examples=[{ name: 'one', content:'<p>Foo bar baz 1</p><p>Foo bar baz 2</p><p>Foo bar baz 3</p><p>Foo bar baz 4</p>' }, { name: 'two', content:'<p>herp derp</p>'}]">
       <div style="min-height: 100px; border: 1px inset; margin: 1em;"
         ng-repeat="ex in examples"
         ng-class="example-{{ex.name}}"
