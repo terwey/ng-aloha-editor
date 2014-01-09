@@ -13,6 +13,9 @@
                 load: "common/ui, common/format, common/paste, common/block, common/list, common/table, extra/draganddropfiles, common/image"
             }
         }
+
+        var globalElementSave;
+        var globalJsonSave;
     </script>
     <style type="text/css">
     .dropZone {
@@ -51,6 +54,55 @@
             var target = e.target || e.srcElement;
             var data = JSON.stringify(jQuery(target).data());
             e.originalEvent.dataTransfer.setData('Text', data);
+        });
+
+        $(this).bind('touchstart', function(e) {
+            e.originalEvent.preventDefault();
+            var target = e.target || e.srcElement;
+
+            $(target).bind('touchmove', function(e) {
+                event = e.originalEvent;
+                if (event.targetTouches.length == 1) {
+                    var touch = event.targetTouches[0];
+                    
+                    if (jQuery('#draghandle').length == 0) {
+                        var draghandle = jQuery(touch.target).clone(false);
+                        draghandle.prop('id','draghandle');
+                        jQuery('body').prepend(draghandle);
+                    } else {
+                        var draghandle = jQuery('#draghandle');
+                    }
+                    
+                    // Place element where the finger is
+                    $(draghandle).css('position', 'absolute');
+                    $(draghandle).css('left', touch.pageX + 'px');
+                    $(draghandle).css('top', touch.pageY + 'px');
+
+                    var elementFromPoint = document.elementFromPoint(touch.pageX-2, touch.pageY-2);
+                    if (jQuery(elementFromPoint).parents().is('.aloha-editable')) {
+                        globalElementSave = elementFromPoint;
+                        globalJsonSave = jQuery(touch.target).data();
+                        var jE = jQuery(globalElementSave);
+
+                        var dropZone = jQuery('<div class="dropZone"></div>');
+                        if (!jE.next().hasClass('dropZone')) {
+                            jQuery('.dropZone').remove();
+                            jE.after(dropZone);
+                        }
+                    }
+                }
+            });
+        });
+
+        $(this).bind('touchend', function(e) {
+            jQuery('#draghandle').remove();
+            jQuery('.dropZone').remove();
+            event = e.originalEvent;
+            var jE = jQuery(globalElementSave);
+            var json = globalJsonSave;
+            var block = jQuery('<div class="imageBlock">Type: <strong>'+json.alohablock+'</strong><br />ID: <strong>'+json.imageid+'</strong></div>');
+            Aloha.jQuery(block).alohaBlock();
+            jE.after(block);
         });
     }
 
