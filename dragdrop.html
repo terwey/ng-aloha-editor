@@ -50,17 +50,17 @@
     */
 
     jQuery.fn.makeDraggable = function() {
-        $(this).bind('dragstart', function(e) {
+        jQuery(this).bind('dragstart', function(e) {
             var target = e.target || e.srcElement;
             var data = JSON.stringify(jQuery(target).data());
             e.originalEvent.dataTransfer.setData('Text', data);
         });
 
-        $(this).bind('touchstart', function(e) {
+        jQuery(this).bind('touchstart', function(e) {
             e.originalEvent.preventDefault();
             var target = e.target || e.srcElement;
 
-            $(target).bind('touchmove', function(e) {
+            jQuery(target).bind('touchmove', function(e) {
                 event = e.originalEvent;
                 if (event.targetTouches.length == 1) {
                     var touch = event.targetTouches[0];
@@ -94,7 +94,7 @@
             });
         });
 
-        $(this).bind('touchend', function(e) {
+        jQuery(this).bind('touchend', function(e) {
             jQuery('#draghandle').remove();
             jQuery('.dropZone').remove();
             event = e.originalEvent;
@@ -103,10 +103,11 @@
             var block = jQuery('<div class="imageBlock">Type: <strong>'+json.alohablock+'</strong><br />ID: <strong>'+json.imageid+'</strong></div>');
             Aloha.jQuery(block).alohaBlock();
             jE.after(block);
+            globalElementSave = undefined;
         });
     }
 
-    $( document ).ready(function() {
+    jQuery( document ).ready(function() {
         jQuery("[draggable='true']").makeDraggable();
 
         /*
@@ -114,32 +115,26 @@
         */
         Aloha.ready(function () {
             jQuery('.aloha-editable').on("dragover", 'p', function(jQueryEvent) {
-                var e = jQueryEvent.originalEvent;
-                var target = e.target || e.srcElement;
-
                 var dropZone = jQuery('<div class="dropZone"></div>');
-                if (!$(target).next().hasClass('dropZone')) {
-                    $(target).after(dropZone);
+                if (!jQuery(jQueryEvent.target).next().hasClass('dropZone')) {
+                    jQuery(jQueryEvent.target).after(dropZone);
                 }
             });
 
             jQuery('.aloha-editable').on("dragleave", 'p', function(jQueryEvent) {
-                var e = jQueryEvent.originalEvent;
-                var target = e.target || e.srcElement;
-                if (jQuery(target).next().hasClass('dropZone')) {
+                if (jQuery(jQueryEvent.target).next().hasClass('dropZone')) {
                     jQuery('.dropZone').remove();
                 }
             });
 
             jQuery('.aloha-editable').on("drop", 'p', function(jQueryEvent) {
-                var e = jQueryEvent.originalEvent;
-                e.preventDefault();
-                var target = e.target || e.srcElement;
-                if (jQuery(target).next().hasClass('dropZone')) {
+                jQueryEvent.originalEvent.preventDefault();
+                
+                if (jQuery(jQueryEvent.target).next().hasClass('dropZone')) {
                     jQuery('.dropZone').remove();
                 }
-                jQuery(target).css('border', 'none');
-                var json = jQuery.parseJSON(e.dataTransfer.getData('Text'));
+                
+                var json = jQuery.parseJSON(jQueryEvent.originalEvent.dataTransfer.getData('Text'));
                 var block = jQuery('<div class="imageBlock">Type: <strong>'+json.alohablock+'</strong><br />ID: <strong>'+json.imageid+'</strong></div>');
                 Aloha.jQuery(block).alohaBlock();
                 jQuery(jQueryEvent.target).after(block);
