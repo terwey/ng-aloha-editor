@@ -50,6 +50,12 @@
     */
 
     jQuery.fn.makeDraggable = function() {
+        jQuery(this).bind('dragstart', function(e) {
+            var target = e.target || e.srcElement;
+            var data = JSON.stringify(jQuery(target).data());
+            e.originalEvent.dataTransfer.setData('Text', data);
+        });
+
         jQuery(this).bind('touchstart', function(e) {
             e.originalEvent.preventDefault();
             var target = e.target || e.srcElement;
