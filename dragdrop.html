@@ -154,10 +154,9 @@
   </head>
   <body ng-app="ExamplePage">
     <div id="dragholder">
-        <div data-ng-repeat="i in [1,2,3,4,5,6,7,8,9,10]" draggable="true" class="draggy" data-alohaBlock="image" data-imageId="{{$index}}">DRAG ME! Image {{$index}}</div>
+        <div data-ng-repeat="i in [1,2,3,4,5,6,7,8,9,10]" draggable="true" class="draggy" data-alohaBlock="image" data-imageId="{{$index}}"><strong>||</strong> Image {{$index}}</div>
     </div>
     
-    <hr />
     <div class="clear" ng-init="examples=[{ name: 'one', content:'<p>Foo bar baz 1</p><p>Foo bar baz 2</p><p>Foo bar baz 3</p><p>Foo bar baz 4</p>' }, { name: 'two', content:'<p>herp derp</p>'}]">
       <div style="min-height: 100px; border: 1px inset; margin: 1em;"
         ng-repeat="ex in examples"
