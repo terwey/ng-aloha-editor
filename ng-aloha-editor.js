@@ -1,5 +1,6 @@
 'use strict';
 
+
 /**
 * This AngularJS Directive is to allow easy usage of the Aloha Editor inside an AngularJS project.
 *
