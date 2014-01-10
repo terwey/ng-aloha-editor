@@ -48,3 +48,6 @@ following commands from the repo directory:
 
 As an alternative to `npm test`, you can use `karma start` to keep the
 tests going in the background.
+
+## Support
+If you have any questions or would just like to participate in on the chat join the channel ```#newscoop``` on the Freenode (irc.freenode.net) network and ask!
