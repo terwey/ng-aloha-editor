@@ -20,7 +20,7 @@ module.exports = function(config) {
       'bower_components/jquery/jquery.js',
       'test/*.spec.js',
       'libs/alohaeditor-0.23.26/aloha/lib/vendor/jquery-1.7.2.js',
-      'test-configuration.js',
+      'test/test-configuration.js',
       'libs/alohaeditor-0.23.26/aloha/lib/aloha.js',
       'ng-aloha-editor.js',
     ],
