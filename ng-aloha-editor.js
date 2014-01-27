@@ -178,10 +178,8 @@ module.directive('aloha', ['$location', '$rootScope', function ($location, $root
                     var directiveId = elem.attr('id');
 
                     if (alohaEditableId == directiveId) {
-                    // if (jqueryEvent.target.getActiveEditable().obj[0].id == elementId) {
-                        scope.alohaContent = alohaTrigger.editable.getContents();
                         scope.alohaContent = alohaEditable.editable.getContents();
-                        scope.$apply();
+                        $rootScope.$$phase || $rootScope.$apply();
                     }
                     scope.$emit('texteditor-content-changed', jqueryEvent, alohaEditable);
                 });
