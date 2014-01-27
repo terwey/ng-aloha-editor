@@ -167,23 +167,23 @@ module.directive('aloha', ['$location', '$rootScope', function ($location, $root
                     scope.$emit('texteditor-selection-changed', jqueryEvent, alohaEditable);
                 });
 
-                Aloha.bind('aloha-smart-content-changed', function(jqueryEvent, alohaTrigger) {
+                Aloha.bind('aloha-smart-content-changed', function(jqueryEvent, alohaEditable) {
                     /**
                     * The Text Editor has detected a change in it's content
                     * @event texteditor-content-changed
                     * @param {Object} jQueryEvent jQuery Event
-                    * @param {Object} alohaTrigger Aloha event that triggered the Change
+                    * @param {Object} alohaEditable DOM Element that Aloha has bound to
                     **/
-                    scope.$emit('texteditor-content-changed', jqueryEvent, alohaTrigger);
-                    console.log('jQueryEvent', jqueryEvent);
-                    console.log('jQueryEvent target', jqueryEvent.target);
-                    console.log('jQueryEvent target active id', jqueryEvent.target.getActiveEditable().obj[0].id);
-                    console.log('AlohaTrigger', alohaTrigger);
-                    if (typeof(alohaTrigger) != "undefined") {
+                    var alohaEditableId = $(alohaEditable.editable.obj).attr('id');
+                    var directiveId = elem.attr('id');
+
+                    if (alohaEditableId == directiveId) {
                     // if (jqueryEvent.target.getActiveEditable().obj[0].id == elementId) {
                         scope.alohaContent = alohaTrigger.editable.getContents();
+                        scope.alohaContent = alohaEditable.editable.getContents();
                         scope.$apply();
                     }
+                    scope.$emit('texteditor-content-changed', jqueryEvent, alohaEditable);
                 });
             });
 
