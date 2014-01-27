@@ -27,6 +27,9 @@
   </head>
   <body ng-app="ExamplePage">
     <div class="clear" ng-controller="MainCtrl">
+    <pre style="word-break: break-word;">
+    {{ examples | json }}
+    </pre>
     <button ng-click="messWithScope()">Mess</button>
       <div
         ng-repeat="ex in examples"

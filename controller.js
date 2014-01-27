@@ -6,12 +6,6 @@ angular.module('ExamplePage')
         ];
 
         $scope.messWithScope = function() {
-        	console.log('foo');
-        	console.log($scope.examples);
-        	console.log($scope.examples[0]);
-        	console.log($scope.examples[0].content);
-        	$scope.examples[0].content = $scope.examples[0].content + '<br /><strong>foo</strong>';
-        	console.log($scope.examples[0].content);
-        	// $scope.$digest();
+        	$scope.examples[0].content = $scope.examples[0].content + '<br /><strong>Messed with the Scope</strong>';
         }
     }]);
