@@ -19,17 +19,19 @@
     <script>
     angular.module('ExamplePage', ['ngAlohaEditor']);
     </script>
+    <script src="_site/controller.js"></script>
     <script>
     var ngAlohaEditorConfig = { baseUrl: '' };
     </script>
     <link href="libs/alohaeditor-0.23.26/aloha/css/aloha.css" rel="stylesheet" type="text/css" />
   </head>
   <body ng-app="ExamplePage">
-    <div ng-init="examples=[{ name: 'one', content:'Foo bar baz' }, { name: 'two', content:'herp derp'}]">
+    <div class="clear" ng-controller="MainCtrl">
+    <button ng-click="messWithScope()">Mess</button>
       <div
         ng-repeat="ex in examples"
         ng-class="example-{{ex.name}}"
-        data-aloha-content='{{ex.content}}'
+        data-aloha-content='ex.content'
         aloha>
       </div>
     </div>
