@@ -149,11 +149,9 @@ module.directive('aloha', ['$location', '$rootScope', function ($location, $root
                 * @param {Object} Element DOM Element that Aloha has bound to
                 **/
                 scope.$emit('texteditor-ready', elem);
-                console.log(elem.attr('id'));
                 Aloha.getEditableById(elem.attr('id')).setContents(scope.alohaContent);
 
                 scope.$watch('alohaContent', function() {
-                    console.log(elem.attr('id'));
                     Aloha.getEditableById(elem.attr('id')).setContents(scope.alohaContent);
                 });
 
