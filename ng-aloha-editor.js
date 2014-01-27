@@ -126,7 +126,7 @@ module.directive('aloha', ['$location', '$rootScope', function ($location, $root
         priority: -1000,
         terminal: true,
         scope: {
-            alohaContent: '@alohaContent'
+            alohaContent: '='
         },
         link: function (scope, elem, attrs) {
             var elementId = "" + count++;
@@ -151,6 +151,10 @@ module.directive('aloha', ['$location', '$rootScope', function ($location, $root
                 scope.$emit('texteditor-ready', elem);
                 Aloha.getEditableById(elem.attr('id')).setContents(scope.alohaContent);
 
+                scope.$watch('alohaContent', function() {
+                    Aloha.getEditableById(elem.attr('id')).setContents(scope.alohaContent);
+                });
+
                 Aloha.bind('aloha-selection-changed', function (jqueryEvent, alohaEditable) {
                     /**
                     * The Text Editor has detected a change in it's selection
@@ -168,11 +172,14 @@ module.directive('aloha', ['$location', '$rootScope', function ($location, $root
                     * @param {Object} jQueryEvent jQuery Event
                     * @param {Object} alohaEditable DOM Element that Aloha has bound to
                     **/
-                    scope.$emit('texteditor-content-changed', jqueryEvent, alohaEditable);
-                    if (typeof(alohaEditable) != "undefined") {
+                    var alohaEditableId = $(alohaEditable.editable.obj).attr('id');
+                    var directiveId = elem.attr('id');
+
+                    if (alohaEditableId == directiveId) {
                         scope.alohaContent = alohaEditable.editable.getContents();
-                        scope.$apply();
+                        $rootScope.$$phase || $rootScope.$apply();
                     }
+                    scope.$emit('texteditor-content-changed', jqueryEvent, alohaEditable);
                 });
             });
 
