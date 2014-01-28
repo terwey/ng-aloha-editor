@@ -175,6 +175,7 @@ module.directive('aloha', ['$location', '$rootScope', function ($location, $root
                     * @param {Object} jQueryEvent jQuery Event
                     * @param {Object} alohaEditable DOM Element that Aloha has bound to
                     **/
+                    fromAloha = false;
                     var alohaEditableId = $(alohaEditable.editable.obj).attr('id');
                     var directiveId = elem.attr('id');
 
