@@ -41,6 +41,7 @@ jQuery.extend(Aloha.settings, DirectiveSettings)
 
 module.directive('aloha', ['$location', '$rootScope', function ($location, $rootScope) {
     var count = 0;
+    var fromAloha = false;
 
     /**
     * Because AngularJS would route clicks on any links, but we
@@ -152,7 +153,9 @@ module.directive('aloha', ['$location', '$rootScope', function ($location, $root
                 Aloha.getEditableById(elem.attr('id')).setContents(scope.alohaContent);
 
                 scope.$watch('alohaContent', function() {
+                    if (!fromAloha) {
                     Aloha.getEditableById(elem.attr('id')).setContents(scope.alohaContent);
+                    }
                 });
 
                 Aloha.bind('aloha-selection-changed', function (jqueryEvent, alohaEditable) {
@@ -177,6 +180,7 @@ module.directive('aloha', ['$location', '$rootScope', function ($location, $root
 
                     if (alohaEditableId == directiveId) {
                         scope.alohaContent = alohaEditable.editable.getContents();
+                        fromAloha = true;
                         $rootScope.$$phase || $rootScope.$apply();
                     }
                     scope.$emit('texteditor-content-changed', jqueryEvent, alohaEditable);
