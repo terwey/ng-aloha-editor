@@ -1,42 +1,63 @@
 <html>
-  <head>
-    <base href="https://rawgithub.com/terwey/ng-aloha-editor/master/">
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.js"></script>
+    <head>
+        <base href="https://rawgithub.com/terwey/ng-aloha-editor/master/">
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.js"></script>
 
-    <script src="libs/alohaeditor-0.23.26/aloha/lib/require.js"></script>
-    <script src="libs/alohaeditor-0.23.26/aloha/lib/vendor/jquery-1.7.2.js"></script>
-    <script type="text/javascript">
-        var Aloha = window.Aloha || ( window.Aloha = {} );
+        <script src="libs/alohaeditor-0.23.26/aloha/lib/require.js"></script>
+        <script src="libs/alohaeditor-0.23.26/aloha/lib/vendor/jquery-1.7.2.js"></script>
+        <script type="text/javascript">
+            var Aloha = window.Aloha || ( window.Aloha = {} );
 
-        Aloha.settings = {
-            plugins: {
-                load: "common/ui, common/format, common/paste, common/block, common/list, common/table, extra/draganddropfiles, common/image"
+            Aloha.settings = {
+                plugins: {
+                    load: "common/ui, common/format, common/paste, common/block, common/list, common/table, extra/draganddropfiles, common/image"
+                }
             }
-        }
-    </script>
-    <script src="libs/alohaeditor-0.23.26/aloha/lib/aloha.js"></script>
-    <script src="ng-aloha-editor.js"></script>
-    <script>
-    angular.module('ExamplePage', ['ngAlohaEditor']);
-    </script>
-    <script src="_site/controller.js"></script>
-    <script>
-    var ngAlohaEditorConfig = { baseUrl: '' };
-    </script>
-    <link href="libs/alohaeditor-0.23.26/aloha/css/aloha.css" rel="stylesheet" type="text/css" />
-  </head>
-  <body ng-app="ExamplePage">
+        </script>
+        <script src="libs/alohaeditor-0.23.26/aloha/lib/aloha.js"></script>
+        <script src="ng-aloha-editor.js"></script>
+        <script>
+        angular.module('ExamplePage', ['ngAlohaEditor']);
+        </script>
+        <script src="controller.js"></script>
+        <script>
+        var ngAlohaEditorConfig = { baseUrl: '' };
+        </script>
+        <link href="libs/alohaeditor-0.23.26/aloha/css/aloha.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body ng-app="ExamplePage">
+    <h1>ng-aloha-editor</h1>
+    <p>
+        Here's an example of the Aloha Directive with the two-way binding in a demo using Aloha on the left and a raw textarea output on the right. Both can be modified.
+    </p>
     <div class="clear" ng-controller="MainCtrl">
-    <pre style="word-break: break-word;">
-    {{ examples | json }}
-    </pre>
-    <button ng-click="messWithScope()">Mess</button>
-      <div
-        ng-repeat="ex in examples"
-        ng-class="example-{{ex.name}}"
-        data-aloha-content='ex.content'
-        aloha>
-      </div>
+        <fieldset
+            ng-repeat="ex in examples">
+            <legend>{{ex.name}}</legend>
+            <fieldset style="float: left; width: 45%">
+                <legend>Aloha</legend>
+                <div
+                    style="height: 200px; border: 1px solid gray; overflow: scroll;"
+                    ng-class="example-{{ex.name}}"
+                    data-aloha-content='ex.content'
+                    aloha>
+                </div>
+            </fieldset>
+            <fieldset style="float: left; width: 45%">
+                <legend>RAW HTML in Textarea</legend>
+                <textarea
+                    style="width: 100%;height: 200px;"
+                    ng-model='ex.content'>
+                </textarea>
+            </fieldset>
+        </fieldset>
+        <br />
+        <fieldset>
+            <legend>Examples in JSON</legend>
+            <pre style="word-break: break-word;">
+                {{ examples | json }}
+            </pre>
+        </fieldset>
     </div>
   </body>
 </html>
