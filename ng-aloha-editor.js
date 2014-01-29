@@ -142,7 +142,9 @@ module.directive('aloha', ['$location', '$rootScope', function ($location, $root
                 **/
                 scope.$emit('texteditor-js-ready');
 
-                alohaElement(elem);
+                if (!elem.hasClass("aloha-editable")) {
+                    alohaElement(elem);
+                }
 
                 /**
                 * The Text Editor has been bound to the object
@@ -153,38 +155,64 @@ module.directive('aloha', ['$location', '$rootScope', function ($location, $root
                 Aloha.getEditableById(elem.attr('id')).setContents(scope.alohaContent);
 
                 scope.$watch('alohaContent', function() {
+                    // Check if the change comes from inside of Aloha
                     if (!fromAloha) {
-                    Aloha.getEditableById(elem.attr('id')).setContents(scope.alohaContent);
+                        Aloha.getEditableById(elem.attr('id')).setContents(scope.alohaContent);
                     }
                 });
 
-                Aloha.bind('aloha-selection-changed', function (jqueryEvent, alohaEditable) {
-                    /**
-                    * The Text Editor has detected a change in it's selection
-                    * @event texteditor-selection-changed
-                    * @param {Object} jQueryEvent jQuery Event
-                    * @param {Object} alohaEditable DOM Element that Aloha has bound to
-                    **/
-                    scope.$emit('texteditor-selection-changed', jqueryEvent, alohaEditable);
+                Aloha.bind('aloha-selection-changed', function (jQueryEvent, alohaEditable) {
+                    if (jQueryEvent.target.activeEditable.originalObj[0].id == elem.attr('id')) {
+                        /**
+                        * The Text Editor has detected a change in it's selection
+                        * @event texteditor-selection-changed
+                        * @param {Object} jQueryEvent jQuery Event
+                        * @param {Object} alohaEditable DOM Element that Aloha has bound to
+                        **/
+                        scope.$emit('texteditor-selection-changed', jQueryEvent, alohaEditable);
+                    }
                 });
 
-                Aloha.bind('aloha-smart-content-changed', function(jqueryEvent, alohaEditable) {
-                    /**
-                    * The Text Editor has detected a change in it's content
-                    * @event texteditor-content-changed
-                    * @param {Object} jQueryEvent jQuery Event
-                    * @param {Object} alohaEditable DOM Element that Aloha has bound to
-                    **/
-                    fromAloha = false;
-                    var alohaEditableId = $(alohaEditable.editable.obj).attr('id');
-                    var directiveId = elem.attr('id');
+                Aloha.bind('aloha-editable-deactivated', function(jQueryEvent, alohaEditable) {
+                    if (jQueryEvent.target.activeEditable.originalObj[0].id == elem.attr('id')) {
+                        /**
+                        * The Text Editor had deactivated editability
+                        * @event texteditor-editable-deactivated
+                        * @param {Object} jQueryEvent jQuery Event
+                        * @param {Object} alohaEditable DOM Element that Aloha has bound to
+                        **/
+                        scope.$emit('texteditor-editable-deactivated', jQueryEvent, alohaEditable);
+                    }
+                });
 
-                    if (alohaEditableId == directiveId) {
+                Aloha.bind('aloha-smart-content-changed', function(jQueryEvent, alohaEditable) {
+                    // Reset {bool} fromAloha to the false state
+                    fromAloha = false;
+
+                    if (jQueryEvent.target.activeEditable.originalObj[0].id == elem.attr('id')) {
                         scope.alohaContent = alohaEditable.editable.getContents();
                         fromAloha = true;
                         $rootScope.$$phase || $rootScope.$apply();
+
+                        /**
+                        * The Text Editor has detected a change in it's content
+                        * @event texteditor-content-changed
+                        * @param {Object} jQueryEvent jQuery Event
+                        * @param {Object} alohaEditable DOM Element that Aloha has bound to
+                        **/
+                        scope.$emit('texteditor-content-changed', jQueryEvent, alohaEditable);
                     }
-                    scope.$emit('texteditor-content-changed', jqueryEvent, alohaEditable);
+                });
+
+                Aloha.bind('aloha-command-executed', function(jQueryEvent, eventArgument) {
+                    if (jQueryEvent.target.activeEditable.originalObj[0].id == elem.attr('id')) {
+                        /**
+                        * The Text Editor has executed a command
+                        * @event texteditor-command-executed
+                        * @param {String} eventArgument executed command name
+                        **/
+                        scope.$emit('texteditor-command-executed', eventArgument);
+                    }
                 });
             });
 
