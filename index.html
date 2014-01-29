@@ -24,6 +24,14 @@
         var ngAlohaEditorConfig = { baseUrl: '' };
         </script>
         <link href="libs/alohaeditor-0.23.26/aloha/css/aloha.css" rel="stylesheet" type="text/css" />
+        <style type="text/css">
+        html {
+            font-family: sans-serif;
+            font-size: 12px;
+        }
+        h1 { font-size: 18px; }
+        h2 { font-size: 16px; }
+        </style>
     </head>
     <body ng-app="ExamplePage">
     <h1>ng-aloha-editor</h1>
@@ -38,7 +46,6 @@
                 <legend>Aloha</legend>
                 <div
                     style="height: 200px; border: 1px solid gray; overflow: scroll;"
-                    ng-class="example-{{ex.name}}"
                     data-aloha-content='ex.content'
                     aloha>
                 </div>
@@ -54,9 +61,9 @@
         <br />
         <fieldset>
             <legend>Examples in JSON</legend>
-            <pre style="word-break: break-word;">
+            <textarea style="width: 100%; height: 200px" readonly="readonly">
                 {{ examples | json }}
-            </pre>
+            </textarea>
         </fieldset>
     </div>
   </body>

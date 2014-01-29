@@ -1,11 +1,7 @@
 angular.module('ExamplePage')
     .controller('MainCtrl', ['$scope', function ($scope) {
         $scope.examples = [
-            { name: 'one', content:'<p>Foo bar baz 1</p><p>Foo bar baz 2</p><p>Foo bar baz 3</p><p>Foo bar baz 4</p>' },
-            { name: 'two', content:'<p>herp derp</p>'}
+            { name: 'Example One', content:"<h1>Cuius quidem, quoniam Stoicus fuit, sententia condemnata mihi videtur esse inanitas ista verborum.</h1><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Efficiens dici potest. Habent enim et bene longam et satis litigiosam disputationem. Duo Reges: constructio interrete. Cur igitur, inquam, res tam dissimiles eodem nomine appellas? </p><h2>Sed ne, dum huic obsequor, vobis molestus sim.</h2><p>Quid enim me prohiberet Epicureum esse, si probarem, quae ille diceret? <b>Iam enim adesse poterit.</b> Tecum optime, deinde etiam cum mediocri amico. Quae quidem sapientes sequuntur duce natura tamquam videntes; Vide, quantum, inquam, fallare, Torquate. <a href='http://loripsum.net/' target='_blank'>Memini me adesse P.</a> Conferam avum tuum Drusum cum C. Ea possunt paria non esse. Quod cum accidisset ut alter alterum necopinato videremus, surrexit statim. Solum praeterea formosum, solum liberum, solum civem, stultost; Ostendit pedes et pectus. </p><p>Quae diligentissime contra Aristonem dicuntur a Chryippo. <i>Quod cum dixissent, ille contra.</i> Quare attende, quaeso. Aliter enim explicari, quod quaeritur, non potest. Ut placet, inquit, etsi enim illud erat aptius, aequum cuique concedere. Quorum sine causa fieri nihil putandum est. </p>" },
+            { name: 'Example Two', content:"<h1>Ut enim consuetudo loquitur, id solum dicitur honestum, quod est populari fama gloriosum.</h1><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Itaque contra est, ac dicitis; <b>Quid censes in Latino fore?</b> </p><p>Hic ambiguo ludimur. <a href='http://loripsum.net/' target='_blank'>Disserendi artem nullam habuit.</a> <i>At multis se probavit.</i> Reguli reiciendam; </p><p>Quid autem habent admirationis, cum prope accesseris? Peccata paria. <i>Quid de Pythagora?</i> Illi enim inter se dissentiunt. <a href='http://loripsum.net/' target='_blank'>Videamus animi partes, quarum est conspectus illustrior;</a> Utilitatis causa amicitia est quaesita. Duo Reges: constructio interrete. </p>"}
         ];
-
-        $scope.messWithScope = function() {
-        	$scope.examples[0].content = $scope.examples[0].content + '<br /><strong>Messed with the Scope</strong>';
-        }
     }]);
