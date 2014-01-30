@@ -1,10 +1,9 @@
 <html>
     <head>
-        <base href="https://rawgithub.com/terwey/ng-aloha-editor/master/">
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.js"></script>
 
-        <script src="libs/alohaeditor-0.23.26/aloha/lib/require.js"></script>
-        <script src="libs/alohaeditor-0.23.26/aloha/lib/vendor/jquery-1.7.2.js"></script>
+        <script type="text/javascript" src="http://cdn.aloha-editor.org/latest/lib/require.js"></script>
+        <script type="text/javascript" src="http://cdn.aloha-editor.org/latest/lib/vendor/jquery-1.7.2.js"></script>
         <script type="text/javascript">
             var Aloha = window.Aloha || ( window.Aloha = {} );
 
@@ -14,17 +13,17 @@
                 }
             }
         </script>
-        <script src="libs/alohaeditor-0.23.26/aloha/lib/aloha.js"></script>
-        <script src="ng-aloha-editor.js"></script>
+        <script src="http://cdn.aloha-editor.org/latest/lib/aloha.js"></script>
+        <script src="http://cdn.itadvice.de/ng-aloha-editor/ng-aloha-editor.js"></script>
         <script>
         angular.module('ExamplePage', ['ngAlohaEditor']);
         </script>
-        <script src="https://rawgithub.com/terwey/ng-aloha-editor/gh-pages/controller.js"></script>
+        <script src="controller.js"></script>
         <script>
         var ngAlohaEditorConfig = { baseUrl: '' };
         </script>
-        <link href="libs/alohaeditor-0.23.26/aloha/css/aloha.css" rel="stylesheet" type="text/css" />
-        <link rel="stylesheet" href="https://rawgithub.com/terwey/ng-aloha-editor/gh-pages/style.css">
+        <link href="http://cdn.aloha-editor.org/latest/css/aloha.css" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="style.css">
         <link rel="stylesheet" href="http://yandex.st/highlightjs/8.0/styles/default.min.css">
         <script src="http://yandex.st/highlightjs/8.0/highlight.min.js"></script>
         <script>hljs.initHighlightingOnLoad();</script>
