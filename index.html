@@ -24,14 +24,10 @@
         var ngAlohaEditorConfig = { baseUrl: '' };
         </script>
         <link href="libs/alohaeditor-0.23.26/aloha/css/aloha.css" rel="stylesheet" type="text/css" />
-        <style type="text/css">
-        html {
-            font-family: sans-serif;
-            font-size: 12px;
-        }
-        h1 { font-size: 18px; }
-        h2 { font-size: 16px; }
-        </style>
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="http://yandex.st/highlightjs/8.0/styles/default.min.css">
+        <script src="http://yandex.st/highlightjs/8.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script>
         <title>ng-aloha-editor | Aloha for AngularJS with Two Way Binding</title>
     </head>
     <body ng-app="ExamplePage">
@@ -40,7 +36,29 @@
     <p>
         Here's an example of the Aloha Directive with the two-way binding in a demo using Aloha on the left and a raw textarea output on the right. Both can be modified.
     </p>
-    <div class="clear" ng-controller="MainCtrl">
+    
+    <h2>Quickstart</h2>
+    <p>
+    Include the Directive's source in your App's main file, and the Aloha specifics
+    <pre><code>&lt;script src="libs/alohaeditor-0.23.26/aloha/lib/require.js"&gt;&lt;/script&gt;
+&lt;script src="libs/alohaeditor-0.23.26/aloha/lib/vendor/jquery-1.7.2.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript"&gt;
+    var Aloha = window.Aloha || ( window.Aloha = {} );
+
+    Aloha.settings = {
+        plugins: {
+            load: "common/ui, common/format, common/paste, common/block, common/list, common/table, extra/draganddropfiles, common/image"
+        }
+    }
+&lt;/script&gt;
+&lt;script src="libs/alohaeditor-0.23.26/aloha/lib/aloha.js"&gt;&lt;/script&gt;
+&lt;script src="ng-aloha-editor.js"&gt;&lt;/script&gt;</code></pre>
+    Add the following to your view and hookup your Model
+    <pre><code>&lt;div data-aloha-content='your.Model' aloha&gt;&lt;/div&gt;</code></pre>
+    This is it! It should work now :)
+    </p>
+    <h2>Example</h2>
+    <div ng-controller="MainCtrl">
         <fieldset
             ng-repeat="ex in examples">
             <legend>{{ex.name}}</legend>
