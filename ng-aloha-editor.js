@@ -134,6 +134,11 @@ module.directive('aloha', ['$location', '$rootScope', function ($location, $root
             var uniqeClass = "angular-aloha-element" + elementId;
             elem[0].classList.add(uniqeClass);
             elem.data("ng-aloha-element-id", elementId);
+            // Because Aloha is slow in initialising it's Editor, 
+            // we have to set the Content manually before
+            if (!Aloha.jQuery.trim( Aloha.jQuery(elem).html()).length) {
+                Aloha.jQuery(elem).html(scope.alohaContent);
+            }
             Aloha.ready(function () {
 
                 /**
