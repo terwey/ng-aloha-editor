@@ -132,11 +132,13 @@ module.directive('aloha', ['$location', '$rootScope', function ($location, $root
         link: function (scope, elem, attrs) {
             var elementId = "" + count++;
             var uniqeClass = "angular-aloha-element" + elementId;
+            var firstTime = false;
             elem[0].classList.add(uniqeClass);
             elem.data("ng-aloha-element-id", elementId);
             // Because Aloha is slow in initialising it's Editor, 
             // we have to set the Content manually before
             if (!Aloha.jQuery.trim( Aloha.jQuery(elem).html()).length) {
+                firstTime = true;
                 Aloha.jQuery(elem).html(scope.alohaContent);
             }
             Aloha.ready(function () {
@@ -157,12 +159,14 @@ module.directive('aloha', ['$location', '$rootScope', function ($location, $root
                 * @param {Object} Element DOM Element that Aloha has bound to
                 **/
                 scope.$emit('texteditor-ready', elem);
-                Aloha.getEditableById(elem.attr('id')).setContents(scope.alohaContent);
 
                 scope.$watch('alohaContent', function() {
                     // Check if the change comes from inside of Aloha
                     if (!fromAloha) {
-                        Aloha.getEditableById(elem.attr('id')).setContents(scope.alohaContent);
+                        if (!firstTime) {
+                            firstTime = false;
+                            Aloha.getEditableById(elem.attr('id')).setContents(scope.alohaContent);
+                        }
                     }
                 });
 
