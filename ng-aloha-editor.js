@@ -171,7 +171,8 @@ module.directive('aloha', ['$location', '$rootScope', function ($location, $root
                 });
 
                 Aloha.bind('aloha-selection-changed', function (jQueryEvent, alohaEditable) {
-                    if (jQueryEvent.target.activeEditable.originalObj[0].id == elem.attr('id')) {
+                    var ae = jQueryEvent.target.activeEditable;
+                    if (ae && ae.originalObj[0].id === elem.attr('id')) {
                         /**
                         * The Text Editor has detected a change in it's selection
                         * @event texteditor-selection-changed
@@ -183,7 +184,8 @@ module.directive('aloha', ['$location', '$rootScope', function ($location, $root
                 });
 
                 Aloha.bind('aloha-editable-deactivated', function(jQueryEvent, alohaEditable) {
-                    if (jQueryEvent.target.activeEditable.originalObj[0].id == elem.attr('id')) {
+                    var ae = jQueryEvent.target.activeEditable;
+                    if (ae && ae.originalObj[0].id === elem.attr('id')) {
                         /**
                         * The Text Editor had deactivated editability
                         * @event texteditor-editable-deactivated
@@ -195,10 +197,12 @@ module.directive('aloha', ['$location', '$rootScope', function ($location, $root
                 });
 
                 Aloha.bind('aloha-smart-content-changed', function(jQueryEvent, alohaEditable) {
+                    var ae = jQueryEvent.target.activeEditable;
+
                     // Reset {bool} fromAloha to the false state
                     fromAloha = false;
 
-                    if (jQueryEvent.target.activeEditable.originalObj[0].id == elem.attr('id')) {
+                    if (ae && ae.originalObj[0].id === elem.attr('id')) {
                         scope.alohaContent = alohaEditable.editable.getContents();
                         fromAloha = true;
                         $rootScope.$$phase || $rootScope.$apply();
@@ -214,7 +218,8 @@ module.directive('aloha', ['$location', '$rootScope', function ($location, $root
                 });
 
                 Aloha.bind('aloha-command-executed', function(jQueryEvent, eventArgument) {
-                    if (jQueryEvent.target.activeEditable.originalObj[0].id == elem.attr('id')) {
+                    var ae = jQueryEvent.target.activeEditable;
+                    if (ae && ae.originalObj[0].id === elem.attr('id')) {
                         /**
                         * The Text Editor has executed a command
                         * @event texteditor-command-executed
